@@ -1,0 +1,1 @@
+mvn clean verify sonar:sonar -Dsonar.projectKey=RestPractice -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_512185498815aed90da66587d10f63d7d187c24f
