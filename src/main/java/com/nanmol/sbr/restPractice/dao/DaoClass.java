@@ -5,7 +5,7 @@ import com.nanmol.sbr.restPractice.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class DaoClass {
@@ -29,13 +29,35 @@ public class DaoClass {
 
     public Customer updateCustomer(Customer c) {
         Customer foundCustomer = (Customer) customerService.findById(c.getId()).get();
-        if(!foundCustomer.getName().equals(c.getName())){
+        if (!foundCustomer.getName().equals(c.getName())) {
             foundCustomer.setName(c.getName());
         }
-        if(!foundCustomer.getContact().equals(c.getContact())){
+        if (!foundCustomer.getContact().equals(c.getContact())) {
             foundCustomer.setContact(c.getContact());
         }
         customerService.save(foundCustomer);
         return foundCustomer;
+    }
+
+    public Customer deleteCustomer(int id) {
+        Optional newCustomer = null;
+        newCustomer = customerService.findById(id);
+        if (newCustomer.isPresent()) {
+            customerService.deleteById(id);
+            return (Customer) newCustomer.get();
+        } else return null;
+    }
+
+    public Map<Integer, Customer> readAllCustomers() {
+        Map<Integer, Customer> loc = new HashMap<>();
+        List<Customer> customers = customerService.findAll();
+        if (customers.size() == 0) {
+            return null;
+        } else {
+            for (Customer c : customers) {
+                loc.put(c.getId(), c);
+            }
+        }
+        return loc;
     }
 }
